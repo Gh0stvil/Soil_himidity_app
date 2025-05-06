@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soul_humidity_app/ui/aparience_app.dart';
 
 void main() {
   runApp(const MainApp());
@@ -10,7 +11,9 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Scaffold(body: Center(child: Text('me mierda🖕!'))),
-    );
-  }
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: ColorMyApp.backgroundColor,
+        body: 
+      ))}
 }
