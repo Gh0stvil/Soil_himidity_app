@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:soul_humidity_app/ui/aparience_app.dart';
 import 'package:soul_humidity_app/widgets/botones.dart';
@@ -13,35 +14,35 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SizedBox(
-          width: 320,
-          height: 670,
-          //decoration: BoxDecoration(color: ColorMyApp.accentColor),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Login",
-                style: TextStyle(
-                  fontSize: 24,
-                  color: ColorMyApp.textColorPrimary,
-                ),
-              ),
-              Spacer(),
-              Column(spacing: 20,
+    return ListView(
+      children: [
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SizedBox(
+              width: 320,
+              height: 670,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  EmailBox(), PasswordBox(),
-              SizedBox(width: double.infinity, height: 55,child: SingIn()),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 50),
+                    child: Image.asset("assets/images/logo 1 transparente.png", width: 350, height: 350, color: ColorMyApp.accentColor),
+                  ),Text("SoildHumidity", style: TextStyle(color: ColorMyApp.accentColor, fontSize: 30, fontWeight: FontWeight.bold, fontFamily:"AestheticMoment"),),
+                  Spacer(),
+                  Column(
+                    spacing: 20,
+                    children: [
+                      EmailBox(),PasswordBox(),
+                      SizedBox(width: double.infinity, height: 55, child: SingIn()),
+                    ],
+                  ),
                 ],
               ),
-             
-            ],
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

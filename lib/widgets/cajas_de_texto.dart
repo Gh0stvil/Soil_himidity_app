@@ -44,8 +44,7 @@ class _PasswordBoxState extends State<PasswordBox> {
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
-          borderSide: BorderSide.none//BorderSide(color: ColorMyApp.accentColor, width: 2),
-            ),
+          borderSide: BorderSide(color: ColorMyApp.accentColor, width: 2),  ),
         filled: true,
         hintText: "Password",
         prefixIcon: Icon(Icons.lock,color: ColorMyApp.accentColor,),
