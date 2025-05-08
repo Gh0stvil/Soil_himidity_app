@@ -18,8 +18,8 @@ class _EmailBoxState extends State<EmailBox> {
         prefix: Padding(padding: EdgeInsets.only(right: 1)),
         prefixIcon: Icon(Icons.email,color: ColorMyApp.accentColor,),
         labelStyle: TextStyle(color: ColorMyApp.textColorPrimary),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-        focusedBorder: OutlineInputBorder(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20),borderSide:BorderSide.none),
+                focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           borderSide: BorderSide(color: ColorMyApp.accentColor, width: 2),
         ),
@@ -57,7 +57,7 @@ class _PasswordBoxState extends State<PasswordBox> {
           },
         ),
         labelStyle: TextStyle(color: ColorMyApp.textColorPrimary),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20),borderSide: BorderSide.none),
       ),
     );
   }
