@@ -16,7 +16,7 @@ class _EmailBoxState extends State<EmailBox> {
         filled: true,
         hintText: "Email",
         prefix: Padding(padding: EdgeInsets.only(right: 1)),
-        prefixIcon: Icon(Icons.email),
+        prefixIcon: Icon(Icons.email,color: ColorMyApp.accentColor,),
         labelStyle: TextStyle(color: ColorMyApp.textColorPrimary),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
         focusedBorder: OutlineInputBorder(
@@ -44,13 +44,13 @@ class _PasswordBoxState extends State<PasswordBox> {
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
-          borderSide: BorderSide(color: ColorMyApp.accentColor, width: 2),
-        ),
+          borderSide: BorderSide.none//BorderSide(color: ColorMyApp.accentColor, width: 2),
+            ),
         filled: true,
         hintText: "Password",
-        prefixIcon: Icon(Icons.lock),
+        prefixIcon: Icon(Icons.lock,color: ColorMyApp.accentColor,),
         suffixIcon: IconButton(
-          icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
+          icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility),color: ColorMyApp.accentColor,
           onPressed: () {
             setState(() {
               _obscureText = !_obscureText;
