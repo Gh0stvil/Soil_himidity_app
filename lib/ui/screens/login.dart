@@ -31,9 +31,13 @@ class _LoginState extends State<Login> {
                 ),
               ),
               Spacer(),
-              EmailBox(),
-              PasswordBox(),
-              SingIn(),
+              Column(spacing: 20,
+                children: [
+                  EmailBox(), PasswordBox(),
+              SizedBox(width: double.infinity, height: 55,child: SingIn()),
+                ],
+              ),
+             
             ],
           ),
         ),
