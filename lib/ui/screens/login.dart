@@ -25,10 +25,7 @@ class _LoginState extends State<Login> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 50),
-                    child: Image.asset("assets/images/logo 1 transparente.png", width: 350, height: 350, color: ColorMyApp.accentColor),
-                  ),Text("SoildHumidity", style: TextStyle(color: ColorMyApp.accentColor, fontSize: 35, fontWeight: FontWeight.bold, fontFamily: GoogleFonts.dancingScript().fontFamily),),
+                  LoginImage(),Text("SoildHumidity", style: TextStyle(color: ColorMyApp.accentColor, fontSize: 35, fontWeight: FontWeight.bold, fontFamily: GoogleFonts.dancingScript().fontFamily),),
                   Spacer(),
                   Column(
                     spacing: 20,
@@ -43,6 +40,20 @@ class _LoginState extends State<Login> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class LoginImage extends StatelessWidget {
+  const LoginImage({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 50),
+      child: Image.asset("assets/images/logo 1 transparente.png", width: 350, height: 350, color: ColorMyApp.accentColor),
     );
   }
 }

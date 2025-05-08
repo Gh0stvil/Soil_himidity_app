@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:soul_humidity_app/ui/aparience_app.dart';
+import 'package:soul_humidity_app/ui/screens/home_page.dart';
 import 'package:soul_humidity_app/ui/screens/login.dart';
 
 void main() {
@@ -15,7 +16,8 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: ColorMyApp.backgroundColor,
-        body: Login(),
+        body:HomePage() 
+        //Login(),
       ),
     );
   }
