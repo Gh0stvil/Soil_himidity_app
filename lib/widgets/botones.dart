@@ -19,7 +19,10 @@ class _SingInState extends State<SingIn> {
         backgroundColor: ColorMyApp.accentColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),        
       ),
-      child: Text("data"),
+      child: Text("LOGIN",style: TextStyle(
+        fontSize: 20,
+        color: Colors.white,
+      ),),
     );
   }
 }
