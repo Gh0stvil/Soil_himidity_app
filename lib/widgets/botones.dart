@@ -13,16 +13,13 @@ class _SingInState extends State<SingIn> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        print("Botón presionado");
+        // Aquí puedes agregar la lógica para el inicio de sesión
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: ColorMyApp.accentColor,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),        
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       ),
-      child: Text("LOGIN",style: TextStyle(
-        fontSize: 20,
-        color: Colors.white,
-      ),),
+      child: Text("LOGIN", style: TextStyle(fontSize: 20, color: Colors.white)),
     );
   }
 }

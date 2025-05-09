@@ -1,5 +1,3 @@
-import 'dart:nativewrappers/_internal/vm/lib/math_patch.dart';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:soul_humidity_app/ui/aparience_app.dart';
@@ -30,14 +28,52 @@ class _HomePageState extends State<HomePage> {
         toolbarHeight: 80,
         actions: [SettingBotton()],
       ),
-      body: Column(
-        children: [
-          Padding(padding: EdgeInsets.only(top: 60)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [Humidity(), Temperatura()],
-          ),
-        ],
+      body: SizedBox(
+        width: double.infinity,
+        height: 700,
+        child: Column(
+          children: [
+            Padding(padding: EdgeInsets.only(top: 60)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [Humidity(), Temperatura()],
+            ),
+            Animation(),
+            Spacer(),
+            // Padding para el botón de agua
+            Container(
+              height: 100,
+              width: 350,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FloatingActionButton.large(
+                  onPressed: () {},
+                  backgroundColor: ColorMyApp.accentColor,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Riego Manual',
+                        style: TextStyle(
+                          color: ColorMyApp.secondaryColor,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: GoogleFonts.abel().fontFamily,
+                        ),
+                      ),
+                      SizedBox(width: 5),
+                      Icon(
+                        Icons.water_drop,
+                        color: ColorMyApp.secondaryColor,
+                        size: 30,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -129,6 +165,7 @@ class _TemperaturaState extends State<Temperatura> {
       ),
       child: Column(
         children: [
+          // Padding para el título de la temperatura
           Padding(
             padding: const EdgeInsets.only(top: 20),
             child: Text(
@@ -141,6 +178,7 @@ class _TemperaturaState extends State<Temperatura> {
               ),
             ),
           ),
+          // Padding para separar el texto de la temperatura
           Padding(
             padding: const EdgeInsets.only(top: 20),
             child: Text(
@@ -154,6 +192,40 @@ class _TemperaturaState extends State<Temperatura> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class Animation extends StatefulWidget {
+  const Animation({super.key});
+
+  @override
+  State<Animation> createState() => _AnimationState();
+}
+
+class _AnimationState extends State<Animation> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: ColorMyApp.secondaryColor,
+          borderRadius: BorderRadius.circular(35),
+        ),
+        width: double.infinity,
+        height: 300,
+        child: Center(
+          child: Align(
+            alignment: Alignment(-0.25, 0.1),
+            child: Image.asset(
+              "assets/images/raf-rafs.gif",
+              width: 250,
+              height: 250,
+            ),
+          ),
+        ),
       ),
     );
   }
