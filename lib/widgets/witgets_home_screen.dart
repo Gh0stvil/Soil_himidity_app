@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:soul_humidity_app/ui/aparience_app.dart';
+import 'package:soul_humidity_app/ui/screens/home_page.dart';
+import 'package:soul_humidity_app/ui/screens/settings.dart';
 
 /*
 ###########################################################
@@ -152,7 +155,10 @@ class SettingBotton extends StatelessWidget {
     return IconButton(
       icon: Icon(Icons.settings, color: ColorMyApp.secondaryColor, size: 30),
       onPressed: () {
-        // Acción al presionar el botón de configuración
+        Navigator.push(
+          context,
+          CupertinoPageRoute(builder: (context) => const Settings()),
+        );
       },
     );
   }

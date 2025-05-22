@@ -23,13 +23,10 @@ class _RangedHumidState extends State<RangedHumid> {
   Widget build(BuildContext context) {
     return RangeSlider(
       values: RangeValues(_lowerValue, _upperValue),
-      min: 25,
-      max: 75,
+      min: 10,
+      max: 95,
       divisions: 100,
-      labels: RangeLabels(
-        _lowerValue.round().toString(),
-        _upperValue.round().toString(),
-      ),
+      labels: RangeLabels('${_lowerValue.round()}%', '${_upperValue.round()}%'),
       onChanged: (values) {
         setState(() {
           _lowerValue = values.start;
@@ -56,19 +53,19 @@ class RangedTemp extends StatefulWidget {
 }
 
 class _RangedTempState extends State<RangedTemp> {
-  double _lowerValue = 25;
+  double _lowerValue = 38;
   double _upperValue = 50;
 
   @override
   Widget build(BuildContext context) {
     return RangeSlider(
       values: RangeValues(_lowerValue, _upperValue),
-      min: 25,
-      max: 75,
+      min: 5,
+      max: 50,
       divisions: 100,
       labels: RangeLabels(
-        _lowerValue.round().toString(),
-        _upperValue.round().toString(),
+        '${_lowerValue.round()}°C',
+        '${_upperValue.round()}°C',
       ),
       onChanged: (values) {
         setState(() {
