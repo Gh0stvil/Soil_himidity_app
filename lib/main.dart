@@ -18,8 +18,8 @@ class MainApp extends StatelessWidget {
       home: Scaffold(
         backgroundColor: ColorMyApp.backgroundColor,
         body: //HomePage(),
-            Settings(),
-        //Login(),
+            //Settings(),
+            Login(),
       ),
     );
   }
