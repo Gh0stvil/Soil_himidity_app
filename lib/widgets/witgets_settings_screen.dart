@@ -76,3 +76,105 @@ class _RangedTempState extends State<RangedTemp> {
     );
   }
 }
+
+/*
+###########################################################
+#                                                         #
+#    Witget que muestra El Boton del tema del programa    #
+#                                                         #
+########################################################### 
+*/
+
+class ThemeBottom extends StatefulWidget {
+  const ThemeBottom({super.key});
+
+  @override
+  State<ThemeBottom> createState() => _ThemeBottomState();
+}
+
+class _ThemeBottomState extends State<ThemeBottom> {
+  bool _isDarkMode = false; // Estado del switch
+
+  @override
+  Widget build(BuildContext context) {
+    return SwitchListTile(
+      title: Text('Modo oscuro'),
+      value: _isDarkMode,
+      onChanged: (value) {
+        setState(() {
+          _isDarkMode = value;
+        });
+        if (value) {
+          showDialog(
+            context: context,
+            builder: (_) {
+              return AlertDialog(
+                title: Text('EPA DIEGO'),
+                content: Text('ME MIERDA DIEGO'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Aceptar'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      },
+    );
+  }
+}
+
+/*
+###########################################################
+#                                                         #
+#       Witget que muestra El Boton del bluethoot         #
+#                                                         #
+########################################################### 
+*/
+
+class BluethootBottom extends StatefulWidget {
+  const BluethootBottom({super.key});
+
+  @override
+  State<BluethootBottom> createState() => _BluethootBottomState();
+}
+
+class _BluethootBottomState extends State<BluethootBottom> {
+  bool _isOffTheBluetooth = false; // Estado del switch
+
+  @override
+  Widget build(BuildContext context) {
+    return SwitchListTile(
+      title: Text('Bluetooth'),
+      value: _isOffTheBluetooth,
+      onChanged: (value) {
+        setState(() {
+          _isOffTheBluetooth = value;
+        });
+        if (value) {
+          showDialog(
+            context: context,
+            builder: (_) {
+              return AlertDialog(
+                title: Text('EPA DIEGO'),
+                content: Text('ME MIERDA DIEGO'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Aceptar'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      },
+    );
+  }
+}

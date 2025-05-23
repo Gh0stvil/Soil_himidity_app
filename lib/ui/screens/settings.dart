@@ -21,36 +21,28 @@ class _SettingsState extends State<Settings> {
         backgroundColor: ColorMyApp.accentColor,
       ),
 
-      body: Container(
-        alignment: Alignment.center,
-        child: Column(
-          children: [
-            Spacer(),
-            FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  CupertinoPageRoute(builder: (context) => const HomePage()),
-                );
-              },
-            ),
-            Text(
-              'Rango de humedad',
-              style: TextStyle(fontSize: 24, color: Colors.black),
-            ),
+      body: Column(
+        children: [
+          ThemeBottom(),
+          BluethootBottom(),
+          Spacer(),
 
-            RangedHumid(),
+          Text(
+            'Rango de humedad',
+            style: TextStyle(fontSize: 24, color: Colors.black),
+          ),
 
-            Text(
-              'Rango de temperaturas',
-              style: TextStyle(fontSize: 24, color: Colors.black),
-            ),
+          RangedHumid(),
 
-            RangedTemp(),
+          Text(
+            'Rango de temperaturas',
+            style: TextStyle(fontSize: 24, color: Colors.black),
+          ),
 
-            Spacer(),
-          ],
-        ),
+          RangedTemp(),
+
+          Spacer(),
+        ],
       ),
     );
   }
