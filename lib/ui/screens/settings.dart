@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:soul_humidity_app/ui/aparience_app.dart';
 import 'package:soul_humidity_app/ui/screens/home_page.dart';
@@ -21,28 +20,51 @@ class _SettingsState extends State<Settings> {
         backgroundColor: ColorMyApp.accentColor,
       ),
 
-      body: Column(
-        children: [
-          ThemeBottom(),
-          BluethootBottom(),
-          Spacer(),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
 
-          Text(
-            'Rango de humedad',
-            style: TextStyle(fontSize: 24, color: Colors.black),
-          ),
+        child: Column(
+          children: [
+            Spacer(),
 
-          RangedHumid(),
+            Row(
+              spacing: 2,
+              //mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.water_drop, size: 25),
+                Text(
+                  'Rango de humedad',
+                  style: TextStyle(fontSize: 24, color: Colors.black),
+                ),
+              ],
+            ),
 
-          Text(
-            'Rango de temperaturas',
-            style: TextStyle(fontSize: 24, color: Colors.black),
-          ),
+            RangedHumid(),
 
-          RangedTemp(),
+            Spacer(flex: 1),
 
-          Spacer(),
-        ],
+            Row(
+              spacing: 2,
+              //mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.thermostat, size: 30),
+                Text(
+                  'Rango de temperaturas',
+                  style: TextStyle(fontSize: 24, color: Colors.black),
+                ),
+              ],
+            ),
+
+            RangedTemp(),
+
+            Spacer(flex: 3),
+
+            Padding(
+              padding: const EdgeInsets.only(bottom: 30.0),
+              child: Column(children: [BluethootBottom(), ThemeBottom()]),
+            ),
+          ],
+        ),
       ),
     );
   }
