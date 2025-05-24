@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:soul_humidity_app/ui/aparience_app.dart';
+import 'package:soul_humidity_app/ui/screens/home_page.dart';
 
 /*
 ###########################################################
@@ -46,7 +48,10 @@ class _SingInState extends State<SingIn> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        // Aquí puedes agregar la lógica para el inicio de sesión
+        Navigator.pushReplacement(
+          context,
+          CupertinoPageRoute(builder: (context) => const HomePage()),
+        );
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: ColorMyApp.accentColor,

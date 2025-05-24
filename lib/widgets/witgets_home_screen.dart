@@ -40,7 +40,7 @@ class _HumidityState extends State<Humidity> {
           Padding(
             padding: const EdgeInsets.only(top: 20),
             child: Text(
-              '60%', // Cambia el valor de la humedad aquí por uno dinámico
+              '0%', // Cambia el valor de la humedad aquí por uno dinámico
               style: TextStyles.numeros,
             ),
           ),
@@ -86,7 +86,7 @@ class _TemperaturaState extends State<Temperatura> {
           // Padding para separar el texto de la temperatura
           Padding(
             padding: const EdgeInsets.only(top: 20),
-            child: Text('60°c', style: TextStyles.numeros),
+            child: Text('0°c', style: TextStyles.numeros),
           ),
         ],
       ),

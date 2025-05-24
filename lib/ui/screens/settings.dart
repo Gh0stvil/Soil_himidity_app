@@ -24,7 +24,7 @@ class _SettingsState extends State<Settings> {
 
         child: Column(
           children: [
-            Spacer(),
+            Spacer(flex: 2),
 
             Row(
               spacing: 2,
@@ -56,11 +56,11 @@ class _SettingsState extends State<Settings> {
 
             RangedTemp(),
 
-            Spacer(flex: 3),
+            Spacer(flex: 4),
 
             Padding(
               padding: const EdgeInsets.only(bottom: 30.0),
-              child: Column(children: [BluethootBottom(), ThemeBottom()]),
+              child: Column(children: [BluethootBottom()]),
             ),
           ],
         ),
