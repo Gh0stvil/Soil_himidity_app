@@ -60,7 +60,7 @@ class _SettingsState extends State<Settings> {
 
             Padding(
               padding: const EdgeInsets.only(bottom: 30.0),
-              child: Column(children: [BluethootBottom()]),
+              child: BluetoothWidget(),
             ),
           ],
         ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:app_settings/app_settings.dart';
 
 /*
 ###########################################################
@@ -85,45 +87,127 @@ class _RangedTempState extends State<RangedTemp> {
 ########################################################### 
 */
 
-class BluethootBottom extends StatefulWidget {
-  const BluethootBottom({super.key});
+class BluetoothWidget extends StatefulWidget {
+  const BluetoothWidget({super.key});
 
   @override
-  State<BluethootBottom> createState() => _BluethootBottomState();
+  BluetoothWidgetState createState() => BluetoothWidgetState();
 }
 
-class _BluethootBottomState extends State<BluethootBottom> {
-  bool _isOffTheBluetooth = false; // Estado del switch
+class BluetoothWidgetState extends State<BluetoothWidget> {
+  bool _isBluetoothOn = false;
+  List<ScanResult> _scanResults = [];
+  bool _isScanning = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Escuchar el estado del Bluetooth
+    FlutterBluePlus.adapterState.listen((state) {
+      setState(() {
+        _isBluetoothOn = state == BluetoothAdapterState.on;
+      });
+    });
+
+    // Consultar estado inicial
+    FlutterBluePlus.adapterState.first.then((state) {
+      setState(() {
+        _isBluetoothOn = state == BluetoothAdapterState.on;
+      });
+
+      if (_isBluetoothOn) {
+        _startScan();
+      }
+    });
+  }
+
+  void _openBluetoothSettings() {
+    AppSettings.openAppSettings(type: AppSettingsType.bluetooth);
+  }
+
+  void _startScan() async {
+    if (_isScanning) return;
+
+    setState(() {
+      _scanResults.clear();
+      _isScanning = true;
+    });
+
+    await FlutterBluePlus.startScan(timeout: const Duration(seconds: 4));
+
+    FlutterBluePlus.scanResults.listen((results) {
+      setState(() {
+        _scanResults = results;
+      });
+    });
+
+    FlutterBluePlus.isScanning.listen((scanning) {
+      setState(() {
+        _isScanning = scanning;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SwitchListTile(
-      title: Text('Bluetooth'),
-      value: _isOffTheBluetooth,
-      onChanged: (value) {
-        setState(() {
-          _isOffTheBluetooth = value;
-        });
-        if (value) {
-          showDialog(
-            context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: Text('EPA DIEGO'),
-                content: Text('ME MIERDA DIEGO'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text('Aceptar'),
-                  ),
-                ],
-              );
-            },
-          );
-        }
-      },
+    return Column(
+      children: [
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text('Bluetooth', style: TextStyle(fontSize: 16)),
+            Switch(
+              value: _isBluetoothOn,
+              onChanged: (value) {
+                if (!_isBluetoothOn) {
+                  _openBluetoothSettings();
+                }
+              },
+            ),
+          ],
+        ),
+        const Divider(),
+        if (_isBluetoothOn) ...[
+          TextButton.icon(
+            onPressed: _isScanning ? null : _startScan,
+            icon: const Icon(Icons.search),
+            label: const Text("Buscar dispositivos"),
+          ),
+          _scanResults.isEmpty
+              ? const Text('No se encontraron dispositivos aún.')
+              : Expanded(
+                child: ListView.builder(
+                  itemCount: _scanResults.length,
+                  itemBuilder: (context, index) {
+                    final device = _scanResults[index].device;
+                    return ListTile(
+                      leading: const Icon(Icons.bluetooth),
+                      title: Text(
+                        device.advName.isNotEmpty
+                            ? device.advName
+                            : 'Dispositivo sin nombre',
+                      ),
+                      subtitle: Text(device.remoteId.str),
+
+                      onTap: () {
+                        // Aquí puedes manejar la selección del dispositivo
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Seleccionaste: ${device.advName}'),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+        ] else
+          const Text(
+            'Bluetooth está apagado. Enciéndelo para buscar dispositivos.',
+          ),
+      ],
     );
   }
 }
