@@ -8,11 +8,14 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
-
+    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
     <application
         android:label="soul_humidity_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        
+        
 
 
         <activity

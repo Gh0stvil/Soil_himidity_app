@@ -14,7 +14,7 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings', style: TextStyles.encabezados),
+        title: Text('Ajustes', style: TextStyles.encabezados),
         centerTitle: true,
         backgroundColor: ColorMyApp.accentColor,
       ),
@@ -60,7 +60,10 @@ class _SettingsState extends State<Settings> {
 
             Padding(
               padding: const EdgeInsets.only(bottom: 30.0),
-              child: BluetoothWidget(),
+              child: ElevatedButton(
+                onPressed: () {},
+                child: Text('Guardar Cambios'),
+              ),
             ),
           ],
         ),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:soul_humidity_app/ui/aparience_app.dart';
-import 'package:soul_humidity_app/ui/screens/home_page.dart';
 import 'package:soul_humidity_app/ui/screens/login.dart';
-import 'package:soul_humidity_app/ui/screens/settings.dart';
 
 void main() {
   runApp(const MainApp());
