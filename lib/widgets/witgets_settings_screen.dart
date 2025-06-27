@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:bluetooth_classic/bluetooth_classic.dart';
 
 /*
 ###########################################################
@@ -84,3 +86,90 @@ class _RangedTempState extends State<RangedTemp> {
 #                                                         #
 ########################################################### 
 */
+class BluetoothDeviceSelector extends StatefulWidget {
+  const BluetoothDeviceSelector({Key? key}) : super(key: key);
+
+  @override
+  State<BluetoothDeviceSelector> createState() =>
+      _BluetoothDeviceSelectorState();
+}
+
+class _BluetoothDeviceSelectorState extends State<BluetoothDeviceSelector> {
+  Future<void> _requestBluetoothPermissions() async {
+    Map<Permission, PermissionStatus> statuses =
+        await [
+          Permission.bluetooth,
+          Permission.bluetoothScan,
+          Permission.bluetoothConnect,
+          Permission.location,
+        ].request();
+
+    bool allGranted = statuses.values.every((status) => status.isGranted);
+    if (!allGranted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Debes conceder los permisos para continuar'),
+        ),
+      );
+      return;
+    }
+
+    _showPairedDevicesDialog();
+  }
+
+  Future<void> _showPairedDevicesDialog() async {
+    try {
+      List<BluetoothDevice> devices =
+          await BluetoothConnection.getBondedDevices();
+
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Dispositivos emparejados"),
+            content: SizedBox(
+              width: double.maxFinite,
+              child: ListView.builder(
+                itemCount: devices.length,
+                itemBuilder: (context, index) {
+                  final device = devices[index];
+                  return ListTile(
+                    title: Text(device.name ?? "Sin nombre"),
+                    subtitle: Text(device.address),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Seleccionaste: ${device.name}'),
+                        ),
+                      );
+                      // Aquí puedes iniciar la conexión si lo deseas
+                    },
+                  );
+                },
+              ),
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      print("Error al obtener dispositivos: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Error al listar dispositivos")),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Bluetooth Emparejados")),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: _requestBluetoothPermissions,
+          child: const Text("Mostrar dispositivos emparejados"),
+        ),
+      ),
+    );
+  }
+}
