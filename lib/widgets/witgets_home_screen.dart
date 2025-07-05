@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:soul_humidity_app/ui/aparience_app.dart';
 import 'package:soul_humidity_app/ui/screens/settings.dart';
+import 'package:soul_humidity_app/widgets/app_state.dart';
 
 /*
 ###########################################################
@@ -11,14 +12,9 @@ import 'package:soul_humidity_app/ui/screens/settings.dart';
 ########################################################### 
 */
 
-class Humidity extends StatefulWidget {
+class Humidity extends StatelessWidget {
   const Humidity({super.key});
 
-  @override
-  State<Humidity> createState() => _HumidityState();
-}
-
-class _HumidityState extends State<Humidity> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,21 +24,16 @@ class _HumidityState extends State<Humidity> {
         color: ColorMyApp.secondaryColor,
         borderRadius: BorderRadius.circular(35),
       ),
-
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Text('Humedad', style: TextStyles.subtitulos),
-          ),
-
-          // Padding para separar el texto de la humedad
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Text(
-              '0%', // Cambia el valor de la humedad aquí por uno dinámico
-              style: TextStyles.numeros,
-            ),
+          SizedBox(height: 20),
+          Text('Humedad', style: TextStyles.subtitulos),
+          SizedBox(height: 20),
+          ValueListenableBuilder<String>(
+            valueListenable: AppState.humedad,
+            builder: (context, valor, _) {
+              return Text(valor, style: TextStyles.numeros);
+            },
           ),
         ],
       ),
@@ -58,14 +49,9 @@ class _HumidityState extends State<Humidity> {
 ########################################################### 
 */
 
-class Temperatura extends StatefulWidget {
+class Temperatura extends StatelessWidget {
   const Temperatura({super.key});
 
-  @override
-  State<Temperatura> createState() => _TemperaturaState();
-}
-
-class _TemperaturaState extends State<Temperatura> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -75,19 +61,18 @@ class _TemperaturaState extends State<Temperatura> {
         color: ColorMyApp.secondaryColor,
         borderRadius: BorderRadius.circular(35),
       ),
-
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Text('Temperatura', style: TextStyles.subtitulos),
-          ),
+          SizedBox(height: 20),
+          Text('Tempeatura', style: TextStyles.subtitulos),
+          SizedBox(height: 20),
+          ValueListenableBuilder<String>(
+          valueListenable: AppState.temperatura,
+          builder: (context, valor, _) {
+          return Text(valor, style: TextStyles.numeros);
+  },
+),
 
-          // Padding para separar el texto de la temperatura
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Text('0°c', style: TextStyles.numeros),
-          ),
         ],
       ),
     );

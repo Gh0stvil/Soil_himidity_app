@@ -15,7 +15,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: ColorMyApp.backgroundColor,
-        body: Login(),
+        body:Login(),
       ),
     );
   }
