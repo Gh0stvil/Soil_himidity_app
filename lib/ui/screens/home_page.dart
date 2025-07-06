@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage> {
         height: 700,
         child: Column(
           children: [
+            IndicadorConexion(),
             Padding(padding: EdgeInsets.only(top: 60)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

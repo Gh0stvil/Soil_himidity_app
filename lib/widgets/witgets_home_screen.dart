@@ -32,7 +32,7 @@ class Humidity extends StatelessWidget {
           ValueListenableBuilder<String>(
             valueListenable: AppState.humedad,
             builder: (context, valor, _) {
-              return Text(valor, style: TextStyle(height: 1.0, fontSize: 30, color: ColorMyApp.primaryColor));
+              return Text(valor, style: TextStyles.numeros);
             },
           ),
         ],
@@ -142,6 +142,50 @@ class SettingBotton extends StatelessWidget {
         Navigator.push(
           context,
           CupertinoPageRoute(builder: (context) => const Settings()),
+        );
+      },
+    );
+  }
+}
+
+
+/*
+###########################################################
+#                                                         #
+#       Widget que muestra El Estado de conexión          #
+#                                                         #
+########################################################### 
+*/
+
+class IndicadorConexion extends StatelessWidget {
+  const IndicadorConexion({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<String>(
+      valueListenable: AppState.dispositivo,
+      builder: (_, nombre, __) {
+        final conectado = nombre != "Sin conexión";
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 10,
+              height: 10,
+              decoration: BoxDecoration(
+                color: conectado ? Colors.green : Colors.grey,
+                shape: BoxShape.circle,
+              ),
+            ),
+            SizedBox(width: 6),
+            Text(
+              conectado ? 'Conectado' : 'Sin conexión',
+              style: TextStyle(
+                fontSize: 17,
+                color: conectado ? const Color.fromARGB(255, 10, 104, 13) : const Color.fromARGB(255, 248, 5, 5),
+              ),
+            ),
+          ],
         );
       },
     );

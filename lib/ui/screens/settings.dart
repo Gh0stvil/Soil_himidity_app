@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:soul_humidity_app/ui/aparience_app.dart';
+import 'package:soul_humidity_app/widgets/app_state.dart';
 import 'package:soul_humidity_app/widgets/witgets_settings_screen.dart';
 
 class Settings extends StatefulWidget {
@@ -36,11 +37,16 @@ String nombreDispositivo = "Sin conectar";
               child: Row(
                 children: [
                   Icon(Icons.bluetooth, size: 20),
-                  Text(
-                    'Dispositivo: $nombreDispositivo',
-                    style: TextStyle(fontSize: 20, color: Colors.black,),
-                    textAlign: TextAlign.center,
-                  ),
+                  ValueListenableBuilder<String>(
+                    valueListenable: AppState.dispositivo,
+                    builder: (_, nombre, __) {
+                      return Text(
+                        'Dispositivo: $nombre',
+                        style: TextStyle(fontSize: 20, color: Colors.black),
+                        textAlign: TextAlign.center,
+                        );
+                      },
+                    )
                 ],
               ),
             ),
@@ -64,8 +70,6 @@ String nombreDispositivo = "Sin conectar";
             Spacer(flex: 1),
 
             Row(
-              // spacing: 2, // Row does not have a 'spacing' property
-              //mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.thermostat, size: 30),
                 SizedBox(width: 8), // Add spacing between icon and text
@@ -83,6 +87,11 @@ String nombreDispositivo = "Sin conectar";
             Padding(
   padding: const EdgeInsets.only(bottom: 30.0),
   child: ElevatedButton(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: ColorMyApp.accentColor,
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      textStyle: TextStyle(fontSize: 20,foreground: Paint()..color = Colors.white),
+    ),
     onPressed: () {
       botonBT(context, (String nuevoNombre) {
         setState(() {

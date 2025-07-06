@@ -149,8 +149,22 @@ Future<void> botonBT(BuildContext context, void Function(String nuevoNombre) onD
 
   try {
     await seleccionado.connect(timeout: Duration(seconds: 10));
-    final servicios = await seleccionado.discoverServices();
+    
+    seleccionado.connectionState.listen((estado) {
+  if (estado == BluetoothConnectionState.disconnected) {
+    AppState.dispositivo.value = "Sin conexión";
+    AppState.humedad.value = "0%";
+    AppState.temperatura.value = "0°C";
 
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Dispositivo desconectado")),
+      );
+    }
+  }
+});
+
+    final servicios = await seleccionado.discoverServices();
     final servicio = servicios.firstWhere((s) => s.uuid == servicioUART);
     final caracteristica = servicio.characteristics.firstWhere((c) => c.uuid == caracteristicaUART);
 
@@ -173,6 +187,9 @@ Future<void> botonBT(BuildContext context, void Function(String nuevoNombre) onD
 
     if (!context.mounted) return;
     onDispositivoConectado(seleccionado.platformName);
+    AppState.dispositivo.value = seleccionado.platformName;
+    onDispositivoConectado(seleccionado.platformName);
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("Conectado a ${seleccionado.platformName}")),
     );
