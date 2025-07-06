@@ -156,13 +156,20 @@ Future<void> botonBT(BuildContext context, void Function(String nuevoNombre) onD
 
     await caracteristica.setNotifyValue(true);
     caracteristica.onValueReceived.listen((value) {
-      final texto = String.fromCharCodes(value).trim();
-      if (texto.startsWith("HUM:")) {
-        AppState.humedad.value = "${texto.replaceFirst("HUM:", "").trim()}%";
-      } else if (texto.startsWith("TEMP:")) {
-        AppState.temperatura.value = "${texto.replaceFirst("TEMP:", "").trim()}°C";
-      }
-    });
+  final texto = String.fromCharCodes(value).trim();
+  final lineas = texto.split(RegExp(r'[\r\n]+'));
+
+  for (final linea in lineas) {
+    if (linea.startsWith("HUM:")) {
+      final valor = linea.replaceFirst("HUM:", "").trim();
+      AppState.humedad.value = "$valor%";
+    } else if (linea.startsWith("TEMP:")) {
+      final valor = linea.replaceFirst("TEMP:", "").trim();
+      AppState.temperatura.value = "$valor°C";
+    }
+  }
+});
+
 
     if (!context.mounted) return;
     onDispositivoConectado(seleccionado.platformName);

@@ -32,7 +32,7 @@ class Humidity extends StatelessWidget {
           ValueListenableBuilder<String>(
             valueListenable: AppState.humedad,
             builder: (context, valor, _) {
-              return Text(valor, style: TextStyles.numeros);
+              return Text(valor, style: TextStyle(height: 1.0, fontSize: 30, color: ColorMyApp.primaryColor));
             },
           ),
         ],
