@@ -151,33 +151,46 @@ await caracteristica.write("GET\n".codeUnits); // modo seguro (sin 'withoutRespo
 // Escuchar toda la respuesta BLE (una sola vez, limpio y estructurado)
 caracteristica.onValueReceived.listen((value) {
   final texto = String.fromCharCodes(value).trim();
+  final lineas = texto.split(RegExp(r'[\r\n]+'));
 
-  // Actualizar el rango si viene como: RANGO_HUM:40-80
-  if (texto.startsWith("RANGO_HUM:")) {
-    final contenido = texto.replaceFirst("RANGO_HUM:", "");
-    final partes = contenido.split("-");
-    if (partes.length == 2) {
-      final min = int.tryParse(partes[0]);
-      final max = int.tryParse(partes[1]);
-      if (min != null && max != null) {
-        AppState.rango.value = RangeValues(min.toDouble(), max.toDouble());
+  for (final linea in lineas) {
+    if (linea.startsWith("RANGO_HUM:")) {
+      final contenido = linea.replaceFirst("RANGO_HUM:", "");
+      final partes = contenido.split("-");
+      if (partes.length == 2) {
+        final min = int.tryParse(partes[0]);
+        final max = int.tryParse(partes[1]);
+        if (min != null && max != null) {
+          AppState.rango.value = RangeValues(min.toDouble(), max.toDouble());
+        }
+      }
+    } else if (linea.startsWith("HUM:")) {
+      AppState.humedad.value = "${linea.replaceFirst("HUM:", "").trim()}%";
+    } else if (linea.startsWith("TEMP:")) {
+      AppState.temperatura.value = "${linea.replaceFirst("TEMP:", "").trim()}°C";
+    } else if (linea == "BOMBA:ON") {
+      AppState.bombaActiva.value = true;
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("💧 Bomba encendida durante 5s")),
+        );
+      }
+    } else if (linea == "BOMBA:OFF") {
+      AppState.bombaActiva.value = false;
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("✅ Bomba apagada")),
+        );
+      }
+    } else if (linea == "BOMBA:YAACTIVA") {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("⚠️ La bomba ya está activa")),
+        );
       }
     }
   }
-
-  // Procesar también humedad y temperatura
-  final lineas = texto.split(RegExp(r'[\r\n]+'));
-  for (final linea in lineas) {
-    if (linea.startsWith("HUM:")) {
-      final valor = linea.replaceFirst("HUM:", "").trim();
-      AppState.humedad.value = "$valor%";
-    } else if (linea.startsWith("TEMP:")) {
-      final valor = linea.replaceFirst("TEMP:", "").trim();
-      AppState.temperatura.value = "$valor°C";
-    }
-  }
 });
-
 
 
     if (!context.mounted) return;
@@ -192,6 +205,45 @@ caracteristica.onValueReceived.listen((value) {
     if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("Error: $e")),
+    );
+  }
+}
+
+/*
+###########################################################
+#                                                         #
+#       Witget que muestra El estado de la bomba          #
+#                                                         #
+########################################################### 
+*/
+
+class EstadoBomba extends StatelessWidget {
+  const EstadoBomba({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: AppState.bombaActiva,
+      builder: (context, activa, _) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.water_drop,
+              color: activa ? Colors.blueAccent : Colors.grey,
+              size: 28,
+            ),
+            SizedBox(width: 8),
+            Text(
+              activa ? "Bomba activa" : "Bomba apagada",
+              style: TextStyle(
+                fontSize: 16,
+                color: activa ? Colors.blueAccent : Colors.grey.shade600,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

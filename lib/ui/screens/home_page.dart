@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:soul_humidity_app/ui/aparience_app.dart';
+import 'package:soul_humidity_app/widgets/app_state.dart';
 import 'package:soul_humidity_app/widgets/witgets_home_screen.dart';
+import 'package:soul_humidity_app/widgets/witgets_settings_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -27,7 +29,9 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             IndicadorConexion(),
-            Padding(padding: EdgeInsets.only(top: 60)),
+            EstadoBomba(),
+            Padding(padding: EdgeInsets.only(top: 30)),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [Humidity(), Temperatura()],
@@ -44,7 +48,7 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.all(8.0),
                 child: FloatingActionButton.large(
                   onPressed: () {
-                    // Accion al precionar el boton!!
+                    activarBomba(context);
                   },
                   backgroundColor: ColorMyApp.accentColor,
                   child: Row(
@@ -68,3 +72,22 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+/*
+###########################################################
+#                                                         #
+#          Widget para el boton de riego manual           #
+#                                                         #
+########################################################### 
+*/
+
+void activarBomba(BuildContext context) {
+    final caracteristica = AppState.caracteristicaBLE;
+    if (caracteristica != null) {
+      caracteristica.write("FORCE\n".codeUnits);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Dispositivo no conectado")),
+      );
+    }
+  }
