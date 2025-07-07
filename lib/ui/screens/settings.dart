@@ -68,20 +68,7 @@ String nombreDispositivo = "Sin conectar";
             RangedHumid(),
 
             Spacer(flex: 1),
-
-            Row(
-              children: [
-                Icon(Icons.thermostat, size: 30),
-                SizedBox(width: 8), // Add spacing between icon and text
-                Text(
-                  'Rango de temperaturas',
-                  style: TextStyle(fontSize: 24, color: Colors.black),
-                ),
-              ],
-            ),
-
-            RangedTemp(),
-
+            
             Spacer(flex: 4),
 
             Padding(

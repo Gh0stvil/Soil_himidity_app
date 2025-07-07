@@ -6,75 +6,50 @@ import 'package:soul_humidity_app/widgets/app_state.dart';
 /*
 ###########################################################
 #                                                         #
-#  Witget que muestra El selector de rango de la humedad  #
+#  Wistra El selector de rango de la humedad  #
 #                                                         #
 ########################################################### 
 */
 
-class RangedHumid extends StatefulWidget {
+class RangedHumid extends StatelessWidget {
   const RangedHumid({super.key});
 
-  @override
-  State<RangedHumid> createState() => _RangedHumidState();
-}
-
-class _RangedHumidState extends State<RangedHumid> {
-  double _lowerValue = 25;
-  double _upperValue = 50;
-
-  @override
-  Widget build(BuildContext context) {
-    return RangeSlider(
-      values: RangeValues(_lowerValue, _upperValue),
-      min: 10,
-      max: 95,
-      divisions: 100,
-      labels: RangeLabels('${_lowerValue.round()}%', '${_upperValue.round()}%'),
-      onChanged: (values) {
-        setState(() {
-          _lowerValue = values.start;
-          _upperValue = values.end;
-        });
-      },
-    );
+  void _enviarRango(RangeValues values) {
+    final caracteristica = AppState.caracteristicaBLE;
+    if (caracteristica != null) {
+      final mensaje = "SET:HUM:${values.start.toInt()}-${values.end.toInt()}";
+      caracteristica.write(mensaje.codeUnits);
+      AppState.rango.value = values; // actualizar estado global
+    }
   }
-}
-
-/*
-###########################################################
-#                                                         #
-#Witget que muestra El selector de rango de la Temperatura#
-#                                                         #
-########################################################### 
-*/
-
-class RangedTemp extends StatefulWidget {
-  const RangedTemp({super.key});
-
-  @override
-  State<RangedTemp> createState() => _RangedTempState();
-}
-
-class _RangedTempState extends State<RangedTemp> {
-  double _lowerValue = 38;
-  double _upperValue = 50;
 
   @override
   Widget build(BuildContext context) {
-    return RangeSlider(
-      values: RangeValues(_lowerValue, _upperValue),
-      min: 5,
-      max: 50,
-      divisions: 100,
-      labels: RangeLabels(
-        '${_lowerValue.round()}°C',
-        '${_upperValue.round()}°C',
-      ),
-      onChanged: (values) {
-        setState(() {
-          _lowerValue = values.start;
-          _upperValue = values.end;
-        });
+    return ValueListenableBuilder<RangeValues>(
+      valueListenable: AppState.rango,
+      builder: (context, valores, _) {
+        return Column(
+          children: [
+            RangeSlider(
+              values: valores,
+              min: 10,
+              max: 95,
+              divisions: 85,
+              labels: RangeLabels(
+                '${valores.start.round()}%',
+                '${valores.end.round()}%',
+              ),
+              onChanged: (nuevo) {
+                AppState.rango.value = nuevo;
+              },
+              onChangeEnd: _enviarRango,
+            ),
+            Text(
+              'Encender < ${valores.start.round()}% • Apagar > ${valores.end.round() - 5}%',
+              style: TextStyle(color: Colors.grey.shade600),
+            ),
+          ],
+        );
       },
     );
   }
@@ -167,12 +142,31 @@ Future<void> botonBT(BuildContext context, void Function(String nuevoNombre) onD
     final servicios = await seleccionado.discoverServices();
     final servicio = servicios.firstWhere((s) => s.uuid == servicioUART);
     final caracteristica = servicio.characteristics.firstWhere((c) => c.uuid == caracteristicaUART);
-
+    AppState.caracteristicaBLE = caracteristica;
     await caracteristica.setNotifyValue(true);
-    caracteristica.onValueReceived.listen((value) {
-  final texto = String.fromCharCodes(value).trim();
-  final lineas = texto.split(RegExp(r'[\r\n]+'));
 
+// Enviar comando GET al microcontrolador
+await caracteristica.write("GET\n".codeUnits); // modo seguro (sin 'withoutResponse')
+
+// Escuchar toda la respuesta BLE (una sola vez, limpio y estructurado)
+caracteristica.onValueReceived.listen((value) {
+  final texto = String.fromCharCodes(value).trim();
+
+  // Actualizar el rango si viene como: RANGO_HUM:40-80
+  if (texto.startsWith("RANGO_HUM:")) {
+    final contenido = texto.replaceFirst("RANGO_HUM:", "");
+    final partes = contenido.split("-");
+    if (partes.length == 2) {
+      final min = int.tryParse(partes[0]);
+      final max = int.tryParse(partes[1]);
+      if (min != null && max != null) {
+        AppState.rango.value = RangeValues(min.toDouble(), max.toDouble());
+      }
+    }
+  }
+
+  // Procesar también humedad y temperatura
+  final lineas = texto.split(RegExp(r'[\r\n]+'));
   for (final linea in lineas) {
     if (linea.startsWith("HUM:")) {
       final valor = linea.replaceFirst("HUM:", "").trim();
@@ -183,6 +177,7 @@ Future<void> botonBT(BuildContext context, void Function(String nuevoNombre) onD
     }
   }
 });
+
 
 
     if (!context.mounted) return;
