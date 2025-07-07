@@ -32,8 +32,8 @@ class _LoginState extends State<Login> {
                   Column(
                     spacing: 20,
                     children: [
-                      EmailBox(),
-                      PasswordBox(),
+                      //EmailBox(),
+                      // PasswordBox(),
                       SizedBox(
                         width: double.infinity,
                         height: 55,
