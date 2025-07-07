@@ -75,24 +75,9 @@ void initState() {
             ValueListenableBuilder<bool>(
               valueListenable: AppState.rangoSincronizado,
               builder: (context, sincronizado, _) {
-                if (!sincronizado) {
-                  return Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircularProgressIndicator(),
-                        SizedBox(width: 12),
-                        Text(
-                          "Sincronizando rango...",
-                          style: TextStyle(color: Colors.grey.shade600),
-                        ),
-                      ],
-                    ),
-                  );
-                } else {
+                
                   return RangedHumid();
-                }
+        
               },
             ),
 

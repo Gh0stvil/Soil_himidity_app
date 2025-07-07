@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
             Plant(),
 
             Spacer(),
-
+            SizedBox(child: Text('emily', style: TextStyle(fontSize: 8, fontStyle: FontStyle.italic))),
             SizedBox(
               height: 100,
               width: 350,
