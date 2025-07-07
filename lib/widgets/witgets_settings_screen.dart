@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:soul_humidity_app/Services/storage.dart';
 import 'package:soul_humidity_app/widgets/app_state.dart';
 
 /*
@@ -15,13 +16,16 @@ class RangedHumid extends StatelessWidget {
   const RangedHumid({super.key});
 
   void _enviarRango(RangeValues values) {
-    final caracteristica = AppState.caracteristicaBLE;
-    if (caracteristica != null) {
-      final mensaje = "SET:HUM:${values.start.toInt()}-${values.end.toInt()}";
-      caracteristica.write(mensaje.codeUnits);
-      AppState.rango.value = values; // actualizar estado global
-    }
+  final caracteristica = AppState.caracteristicaBLE;
+  if (caracteristica != null) {
+    final mensaje = "SET:HUM:${values.start.toInt()}-${values.end.toInt()}";
+    caracteristica.write(mensaje.codeUnits);
   }
+
+  AppState.rango.value = values;
+  Storage.guardarRango(values.start.toInt(), values.end.toInt());
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -150,6 +154,7 @@ await caracteristica.write("GET\n".codeUnits); // modo seguro (sin 'withoutRespo
 
 // Escuchar toda la respuesta BLE (una sola vez, limpio y estructurado)
 caracteristica.onValueReceived.listen((value) {
+  
   final texto = String.fromCharCodes(value).trim();
   final lineas = texto.split(RegExp(r'[\r\n]+'));
 
@@ -162,6 +167,8 @@ caracteristica.onValueReceived.listen((value) {
         final max = int.tryParse(partes[1]);
         if (min != null && max != null) {
           AppState.rango.value = RangeValues(min.toDouble(), max.toDouble());
+          AppState.rangoSincronizado.value = true;
+          
         }
       }
     } else if (linea.startsWith("HUM:")) {
